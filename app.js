@@ -14,7 +14,7 @@ app.get('/',function(req,res){
      res.render('index');
 });
 
-io.sockets.on('connection',function(socket){
+io.on('connection',function(socket){
 
       console.log("A New Connection Established");
 
@@ -34,13 +34,13 @@ io.sockets.on('connection',function(socket){
 
 
       function updateNicknames(){
-        io.sockets.emit('usernames',Object.keys(users));
+        io.emit('usernames',Object.keys(users));
       }
 
 
       socket.on('send message',function(data,callback){
         var msg=data.trim();
-
+         console.log(msg,data);
         if(msg.substr(0,1) === '@'){
           msg=msg.substr(1);
           var ind=msg.indexOf(' ');

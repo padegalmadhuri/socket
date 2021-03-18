@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <head>
   <title>Socket chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,7 +32,7 @@
  			<div class="col-md-6 col-sm-offset-1 panel panel-primary">
             <div class="panel-body">
                <div id="contentWrap" >
-                  <div id="chatWrap" style=" border-radius: 10px; min-height: 400;max-height: 400;overflow-y: scroll;">
+                  <div id="chatWrap" style=" border-radius: 10px; min-height: 200px;max-height: 400px; min-width:100px;overflow-y: scroll;">
                       <div id="chat"></div>
                   </div>
                </div>
@@ -54,7 +54,7 @@
   <div class="col-md-2 col-md-offset-2">
     <form id="message-box">
       <div class="form-group">
-       <textarea required autofocus style="background-color:#ffffe6;border:double 4px black;border-radius: 0.5em;" rows="3" cols="60" id="message" placeholder="Write your message here.."></textarea>
+       <textarea required autofocus style="border:double 4px black;border-radius: 0.5em;" rows="3" cols="60" id="message" placeholder="Write your message here.."></textarea>
       </div>
       <div class="form-group">
         <button class="btn message-btn">send</button>
@@ -111,11 +111,25 @@
        socket.on('usernames',function(data){
             var html='<ul>';
             console.log(socket.id);
+            console.log(data);
+            
             for(i=0;i<data.length;i++){
-              if(data.id !==socket.id){
-                  console.log(data.id);
-              html+='<li><span>'+data[i]+'</span></li>';
-              }
+              // if(!socket.id){
+                var ids = 'data'+ i;
+              //      console.log(socket.id);
+              html+='<li><span id = '+ ids +'>'+data[i]+'</span></li>';
+              var idclick =$('#ids');
+              $(idclick).on('click', '#nickname',function () {
+                var username = $(this).text(),
+                  message = prompt("type your message");
+
+              //   socket.emit('private_chat', {
+              //     to: username,
+              //     message: message
+              //   });
+              });
+
+                
             }
             html=html+'</ul>';
             $users.html(html);
