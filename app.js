@@ -1,11 +1,18 @@
-var express=require('express');
-var app=express();
-var server=require('http').createServer(app);
-var io=require('socket.io')(server);
+const express = require('express');
+const socket = require('socket.io');
+// const server=require('http').createServer(app);
 // io.listen(server);
-var users={};
-var port = process.env.PORT || 3000;
-    server.listen(port);
+const app = express();
+const users = {};
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
+  console.log(':::Server is UP & running successfully:::')
+  console.log(`:::http://localhost:${port}:::`)
+});
+const io = socket(server)
+var onlineUsers = []
+// var port = process.env.PORT || 3000;
+//  server.listen(port);
 
 app.use(express.static(__dirname + '/public'));
 app.set('view engine','ejs');
@@ -27,8 +34,10 @@ io.on('connection',function(socket){
           callback(true);
           socket.nickname=data;
           users[socket.nickname]=socket;
+          // onlineUsers.push({socketID: socket.id}) 
           updateNicknames();
-         console.log(users);
+          // console.log(users);
+          console.log(onlineUsers);
         }
       });
 
@@ -72,8 +81,13 @@ io.on('connection',function(socket){
             delete users[socket.nickname];
             updateNicknames();
       });
-    //  socket.on('mssgprivate',function(data){
-        
-    //  })
 
+  io.on('pvtmsg', function (socket) {
+    //Push new connected user to the onlineUsers array
+    onlineUsers.push({ socketID: socket.id })
+    io.on('message', function (msg) {
+      io.to(`${socketId}`).emit('message', msg); //Message to specific user
+    });
+  });
 });
+
