@@ -28,7 +28,7 @@ io.on('connection',function(socket){
           socket.nickname=data;
           users[socket.nickname]=socket;
           updateNicknames();
-        //   console.log(users);
+         console.log(users);
         }
       });
 
@@ -40,7 +40,7 @@ io.on('connection',function(socket){
 
       socket.on('send message',function(data,callback){
         var msg=data.trim();
-         console.log(msg,data);
+        //  console.log(msg,data);
         if(msg.substr(0,1) === '@'){
           msg=msg.substr(1);
           var ind=msg.indexOf(' ');
@@ -48,22 +48,20 @@ io.on('connection',function(socket){
             var name=msg.substring(0,ind);
             var msg=msg.substring(ind+1);
              if(name in users){
-
                 users[name].emit('whisper',{msg:msg,nick:socket.nickname});
-                console.log(socket.nickname,msg);
+                console.log(socket.nickname,":",msg);
                 socket.emit('private',{msg:msg,nick:name});
-              // console.log("Whispering !");
-            }else{
+              }else{
               callback("Sorry, "+name+" is not online");
             }
           }else{
             callback("you forgot to write the message");
           }
-
         }
 
          else{
         //  console.log("Got Message :"+data)
+        console.log(msg,socket.nickname);
          io.sockets.emit('new message',{msg:msg,nick:socket.nickname});
            }
       });
@@ -74,8 +72,8 @@ io.on('connection',function(socket){
             delete users[socket.nickname];
             updateNicknames();
       });
-     socket.on('private',function(data){
-
-     })
+    //  socket.on('mssgprivate',function(data){
+        
+    //  })
 
 });

@@ -70,20 +70,20 @@
    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
    <script src="/socket.io/socket.io.js"></script>
    <script>
-    $(function(){
-       var socket=io.connect();
-       var $messageForm=$('#message-box');
-       var $messageBox=$('#message');
-       var $chat=$('#chat');
+    $(function () {
+        var socket = io.connect();
+        var $messageForm = $('#message-box');
+        var $messageBox = $('#message');
+        var $chat = $('#chat');
 
-       var chatOuter=$('#chatWrap');
-       var chatInner=$('#chat');
+        var chatOuter = $('#chatWrap');
+        var chatInner = $('#chat');
 
-       var $users=$('#users');
-       var $nickForm=$('#setNick');
-       var $nickError=$('#nickError');
-       var $nickBox=$('#nickname');
-       var title='anonymous';
+        var $users = $('#users');
+        var $nickForm = $('#setNick');
+        var $nickError = $('#nickError');
+        var $nickBox = $('#nickname');
+        var title = 'anonymous';
 
        $('#message').keydown(function(event) {
           if (event.keyCode == 13) {
@@ -93,84 +93,84 @@
        });
 
 
-       $nickForm.submit(function(e){
-           e.preventDefault();
-           title=$nickBox.val();
-           socket.emit('new user',$nickBox.val(),function(data){
-                if(data){
-                  $('#nickWrap').hide();
-                    document.title=title;
-                  $('#chatWindow').show();
-                }else{
-                  $nickError.html("Sorry, that nickname is already taken , try something else");
-                }
-           });
-           $nickBox.val('');
-       });
-
-       socket.on('usernames',function(data){
-            var html='<ul>';
-            console.log(socket.id);
-            console.log(data);
-            
-            for(i=0;i<data.length;i++){
-              // if(!socket.id){
-                var ids = 'data'+ i;
-              //      console.log(socket.id);
-              html+='<li><span id = '+ ids +'>'+data[i]+'</span></li>';
-              var idclick =$('#ids');
-              // $(idclick).on('click', '#nickname',function () {
-              //   var username = $(this).text(),
-              //     message = prompt("type your message");
-
-              //   socket.emit('private_chat', {
-              //     to: username,
-              //     message: message
-              //   });
-              // });
-
-              }
-            html=html+'</ul>';
-            $users.html(html);
+       $nickForm.submit(function (e) {
+        e.preventDefault();
+        title = $nickBox.val();
+        socket.emit('new user', $nickBox.val(), function (data) {
+          if (data) {
+            $('#nickWrap').hide();
+            document.title = title;
+            $('#chatWindow').show();
+          } else {
+            $nickError.html("Sorry, that nickname is already taken , try something else");
+          }
         });
+        $nickBox.val('');
+      });
 
+       socket.on('usernames', function (data) {
+        var html = '<ul>';
+        console.log(socket.id);
+        console.log(data);
 
+        for (i = 0; i < data.length; i++) {
+          // if(!socket.id){
+          var ids = 'data' + i;
+          //      console.log(socket.id);
+          html += '<li><span id = ' + ids + '>' + data[i] + '</span></li>';
+          var idclick = $('#ids');
+          // $(idclick).on('click', '#nickname',function () {
+          //   var username = $(this).text(),
+          //     message = prompt("type your message");
 
-       $messageForm.submit(function(e){
-            e.preventDefault();
-            socket.emit('send message',$messageBox.val(),function(data){
-              $chat.append("<p align='right' class='error'>"+data+"&nbsp;&nbsp;</p><br/>");
-            });
-            $messageBox.val('');
-       });
+          //   socket.emit('private_chat', {
+          //     to: username,
+          //     message: message
+          //   });
+          // });
 
-
-
-       socket.on('new message',function(data){
-         if(data.nick===title){
-           $chat.append("<p style='' align='right' class='msg'><b>"+data.nick+" : </b>"+data.msg+"&nbsp;&nbsp;</p>");
-         }else{
-           $chat.append("<p style='' align='left' class='msg'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p>");
-         }
-         scrollCorrect();
-       });
-
-
-
-       socket.on('whisper',function(data){
-           $chat.append("<p align='left' class='whisper'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p><br/>");
-
-       });
-
-       socket.on('private',function(data){
-           $chat.append("<p align='right' class='whisper'><b>"+title+"@"+data.nick+": </b>"+data.msg+"&nbsp;&nbsp;</p><br/>");
-
-       });
-
-
-        function scrollCorrect(){
-             chatOuter.scrollTop(chatInner.outerHeight());
         }
+        html = html + '</ul>';
+        $users.html(html);
+      });
+
+
+
+      $messageForm.submit(function (e) {
+        e.preventDefault();
+        socket.emit('send message', $messageBox.val(), function (data) {
+          $chat.append("<p align='right' class='error'>" + data + "&nbsp;&nbsp;</p><br/>");
+        });
+        $messageBox.val('');
+      });
+
+
+
+      socket.on('new message', function (data) {
+        if (data.nick === title) {
+          $chat.append("<p style='' align='right' class='msg'><b>" + data.nick + " : </b>" + data.msg + "&nbsp;&nbsp;</p>");
+        } else {
+          $chat.append("<p style='' align='left' class='msg'><b>&nbsp;&nbsp;&nbsp;" + data.nick + " : </b>" + data.msg + "</p>");
+        }
+        scrollCorrect();
+      });
+
+
+
+      socket.on('whisper', function (data) {
+        $chat.append("<p align='left' class='whisper'><b>&nbsp;&nbsp;&nbsp;" + data.nick + " : </b>" + data.msg + "</p><br/>");
+
+      });
+
+      socket.on('private', function (data) {
+        $chat.append("<p align='right' class='whisper'><b>" + title + "@" + data.nick + ": </b>" + data.msg + "&nbsp;&nbsp;</p><br/>");
+
+      });
+
+
+      function scrollCorrect() {
+        chatOuter.scrollTop(chatInner.outerHeight());
+      }
     });
 
    </script>
