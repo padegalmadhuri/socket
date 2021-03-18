@@ -52,12 +52,12 @@ io.sockets.on('connection',function(socket){
                 users[name].emit('whisper',{msg:msg,nick:socket.nickname});
                 console.log(socket.nickname,msg);
                 socket.emit('private',{msg:msg,nick:name});
-              console.log("Whispering !");
+              // console.log("Whispering !");
             }else{
               callback("Sorry, "+name+" is not online");
             }
           }else{
-            callback("Looks like you forgot to write the message");
+            callback("you forgot to write the message");
           }
 
         }

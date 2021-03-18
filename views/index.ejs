@@ -12,8 +12,7 @@
   <div class="container">
     <div class="row">
      <div class="text-center"  id="nickWrap">
-       <!-- <img height="500" width="500" class="img-circle" src="/images/minion.jpg"/> -->
-         <h3>Pick your super awesome nickname</h3>
+        <h3>Pick your super awesome nickname</h3>
        <p id="nickError"></p>
        <div class="form-group">
        <form id="setNick" role="form">
@@ -33,7 +32,7 @@
  			<div class="col-md-6 col-sm-offset-1 panel panel-primary">
             <div class="panel-body">
                <div id="contentWrap" >
-                  <div id="chatWrap" style=" border-radius: 10px; min-height: 40rem;max-height: 40rem;overflow-y: scroll;">
+                  <div id="chatWrap" style=" border-radius: 10px; min-height: 400;max-height: 400;overflow-y: scroll;">
                       <div id="chat"></div>
                   </div>
                </div>
@@ -46,7 +45,7 @@
             <div  id="users"></div>
         </div>
       </div>
-        <!-- <h4 align="center">Invite your friends by sharing the <a target="_blank" href="https://awesome-socket-io.herokuapp.com/">link</a></h4> -->
+        <!-- <h4></h4> -->
    </div>
  </div>
  <br/>
@@ -55,7 +54,7 @@
   <div class="col-md-2 col-md-offset-2">
     <form id="message-box">
       <div class="form-group">
-       <textarea required autofocus style="background-color:#ffffe6;border:double 4px orange;border-radius: 0.5em;" rows="3" cols="60" id="message" placeholder="Write your message here.."></textarea>
+       <textarea required autofocus style="background-color:#ffffe6;border:double 4px black;border-radius: 0.5em;" rows="3" cols="60" id="message" placeholder="Write your message here.."></textarea>
       </div>
       <div class="form-group">
         <button class="btn message-btn">send</button>
@@ -86,12 +85,12 @@
        var $nickBox=$('#nickname');
        var title='anonymous';
 
-    //    $('#message').keydown(function(event) {
-    //       if (event.keyCode == 13) {
-    //            $(this.form).submit()
-    //           return false;
-    //          }
-    //    });
+       $('#message').keydown(function(event) {
+          if (event.keyCode == 13) {
+               $(this.form).submit()
+              return false;
+             }
+       });
 
 
        $nickForm.submit(function(e){
@@ -140,7 +139,7 @@
          }else{
            $chat.append("<p style='' align='left' class='msg'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p>");
          }
-        //  scrollCorrect();
+         scrollCorrect();
        });
 
 
