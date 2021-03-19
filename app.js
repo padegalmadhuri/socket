@@ -1,6 +1,8 @@
 const express = require('express');
 const socket = require('socket.io');
 const app = express();
+const dotenv = require('dotenv');
+dotenv.config();
 const users = {};
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
